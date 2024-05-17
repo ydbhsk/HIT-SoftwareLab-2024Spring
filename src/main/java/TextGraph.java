@@ -27,6 +27,7 @@ public class TextGraph {
         System.out.println("Hello and welcome!");
         TextGraph textGraph = new TextGraph();
         textGraph.inputGraph("src/main/java/input.txt");
+        System.out.println(textGraph.queryBridgeWords("to", "and"));
         textGraph.drawGraph();
     }
     public void inputGraph(String filename) {
@@ -92,7 +93,7 @@ public class TextGraph {
         return 0;
     }
 
-    private void drawGraph() {
+    public void drawGraph() {
         // 绘制图
         // ...
         System.setProperty("org.graphstream.ui", "swing"); // 使用 Swing
@@ -112,5 +113,33 @@ public class TextGraph {
             }
         }
         graph.display();
+    }
+
+    public String queryBridgeWords(String word1, String word2){
+        // 查询桥接词
+        // ...
+        int v1,v2 = -1;
+        v1 = getVIndex(word1); // 获取顶点索引
+        v2 = getVIndex(word2); // 获取顶点索引
+        if (v1 == -1) {
+            System.out.println("No \""+word1+"\" in the graph!");
+            return null;
+        }
+        if (v2 == -1) {
+            System.out.println("No \""+word2+"\" in the graph!");
+            return null;
+        }
+        StringBuilder bridgeWords = new StringBuilder();
+        for (int i = 0; i < V; i++) {
+            if (adj[v1][i] > 0 && adj[i][v2] > 0) {
+                bridgeWords.append(vertices.toArray()[i]).append(" ");
+            }
+        }
+        if (bridgeWords.length() == 0) {
+            System.out.println("No bridge words from \""+word1+"\" to \""+word2+"\"!");
+            return null;
+        }
+        System.out.println("The bridge words from \""+word1+"\" to \""+word2+"\" is: "+bridgeWords);
+        return bridgeWords.toString();
     }
 }
