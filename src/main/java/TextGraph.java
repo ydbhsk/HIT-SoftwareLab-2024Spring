@@ -28,7 +28,7 @@ public class TextGraph {
     public static void main(String[] args) throws IOException {
         System.out.println("Hello and welcome!");
         TextGraph textGraph = new TextGraph();
-        textGraph.inputGraph("src/main/java/input.txt");
+        textGraph.inputGraph(args[0]);
         textGraph.showDirectedGraph();
         Scanner scanner = new Scanner(System.in);
         while (true){
