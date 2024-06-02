@@ -1,3 +1,10 @@
-To @ explore strange new worlds,
-To seek out new life and new civilizations?
-To here new
+This is a test file for the input text.
+It contains various special cases to cover different scenarios in the program.
+Including: empty lines,
+, special characters! and numbers,
+OnlyOneWord
+MIXEDcaSe TesT
+UPPERCASE
+lowercase
+RepeatedWord RepeatedWord RepeatedWord
+This,is,a,test,file,with,commas,and,with.dots.and;semi

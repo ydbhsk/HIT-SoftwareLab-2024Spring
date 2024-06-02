@@ -15,7 +15,9 @@ public class TextGraph {
     private int V; // 顶点数
     private int E; // 边数
     private int[][] adj; // 邻接矩阵
-    private String filename = "output.txt"; // 文件名
+    private String filename = "src/main/java/output.txt"; // 文件名
+
+    private int picNum; // 图片编号
 
     public TextGraph() {
         // 构造函数
@@ -23,13 +25,15 @@ public class TextGraph {
         vertices = new HashSet<>();
         V = 0;
         E = 0;
+        picNum = 0;
     }
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hello and welcome!");
         TextGraph textGraph = new TextGraph();
-        textGraph.inputGraph(args[0]);
-        textGraph.showDirectedGraph();
+        textGraph.inputGraph("src/main/java/input.txt");
+//        textGraph.inputGraph(args[0]);
+        textGraph.showDirectedGraph(null);
         Scanner scanner = new Scanner(System.in);
         while (true){
             System.out.println("Please input the function you want to use:");
@@ -123,7 +127,7 @@ public class TextGraph {
         return -1;
     }
 
-    public void showDirectedGraph() {
+    public void showDirectedGraph(int [][]especial) {
         // 绘制图
         // ...
         System.setProperty("org.graphstream.ui", "swing"); // 使用 Swing
@@ -139,10 +143,19 @@ public class TextGraph {
                     Edge edge = graph.addEdge(i + "-" + j, vertices.toArray()[i].toString(), vertices.toArray()[j].toString(), true);
                     edge.setAttribute("ui.label", String.valueOf(adj[i][j]));
                     edge.setAttribute("ui.style", "text-size:20px;");
+                    if(especial != null && especial[i][j] == 1){
+                        edge.setAttribute("ui.style", "fill-color: red;");
+                    }
                 }
             }
         }
         graph.display();
+        graph.addAttribute("ui.stylesheet", "node {size: 20px; fill-color: blue; text-size: 20px;}" +
+                "edge {fill-color: black; text-size: 20px;}");
+        graph.addAttribute("ui.quality");
+        graph.addAttribute("ui.antialias");
+        // 保存图片文件
+        graph.addAttribute("ui.screenshot", "src/main/java/pic" + picNum++ + ".png");
     }
 
     public String queryBridgeWords(String word1, String word2, boolean isPrint){
@@ -271,13 +284,27 @@ public class TextGraph {
                 return null;
             }
             StringBuilder shortestPath = new StringBuilder();
-            int v = v2;
+            int v = v2,distance = dist[v2];
             while (v != v1) {
                 shortestPath.insert(0, "->" + vertices.toArray()[v]);
                 v = path[v];
             }
             shortestPath.insert(0, vertices.toArray()[v1]);
-            System.out.println("The shortest path from \"" + word1 + "\" to \"" + word2 + "\" is: " + shortestPath);
+            System.out.println("The shortest path from \"" + word1 + "\" to \"" + word2 + "\" " +
+                    "is: " + shortestPath + ", with a distance of " + distance + ".");
+            int [][]especial = new int[V][V];
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    especial[i][j] = 0;
+                }
+            }
+            v = v2;
+            while (v != v1) {
+                especial[path[v]][v] = 1;
+                v = path[v];
+            }
+            especial[v1][v2] = 1;
+            showDirectedGraph(especial);
             return shortestPath.toString();
         }
         else {
