@@ -43,6 +43,7 @@ public class TextGraph {
   public TextGraph() {
     random = new SecureRandom();
     vertices = new HashSet<>();
+    adj = null;
     vertexCount = 0;
     edgeCount = 0;
     picNum = 0;
@@ -234,7 +235,7 @@ public class TextGraph {
       return null;
     }
     StringBuilder bridgeWords = new StringBuilder();
-    for (int i = 0; i <   vertexCount; i++) {
+    for (int i = 0; i < vertexCount; i++) {
       if (adj[v1][i] > 0 && adj[i][v2] > 0) {
         bridgeWords.append(vertices.toArray()[i]).append(" ");
       }

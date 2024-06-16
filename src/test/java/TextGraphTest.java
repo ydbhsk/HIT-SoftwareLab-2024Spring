@@ -13,7 +13,6 @@ class TextGraphTest {
 	@BeforeEach
 	public void setUp() {
 		textGraph.inputGraph("src/main/java/input.txt");
-		textGraph.showDirectedGraph(null);
 	}
 
 	@Test
@@ -141,6 +140,75 @@ class TextGraphTest {
 		textGraph.calcShortestPath("semi", "and");
 
 		String expected = "No path from \"semi\" to \"and\"!\r\n";
+
+		assertEquals(expected, outContent.toString());
+	}
+
+	@Test
+	void testqueryBridgeWords(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		textGraph.queryBridgeWords("dog", "test",true);
+
+		String expected = "No \"dog\" in the graph!\r\n";
+
+		assertEquals(expected, outContent.toString());
+	}
+
+	@Test
+	void testqueryBridgeWords2(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		textGraph.queryBridgeWords("this", "cat",true);
+
+		String expected = "No \"cat\" in the graph!\r\n";
+
+		assertEquals(expected, outContent.toString());
+	}
+
+	@Test
+	void testqueryBridgeWords3(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		// 新建一个空图
+		TextGraph textGraph1 = new TextGraph();
+		textGraph1.queryBridgeWords("this", "a",true);
+		String expected = "No \"this\" in the graph!\r\n";
+
+		assertEquals(expected, outContent.toString());
+	}
+
+	@Test
+	void testqueryBridgeWords4(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		textGraph.queryBridgeWords("cases", "test",true);
+		String expected = "No bridge words from \"cases\" to \"test\"!\r\n";
+
+		assertEquals(expected, outContent.toString());
+	}
+
+	@Test
+	void testqueryBridgeWords5(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		// 新建一个仅包含一个桥接词的图
+		TextGraph textGraph1 = new TextGraph();
+		textGraph1.inputGraph("src/main/java/input2.txt");
+		textGraph1.queryBridgeWords("this", "a",true);
+
+		String expected = "The bridge words from \"this\" to \"a\" are: is \r\n";
+
+		assertEquals(expected, outContent.toString());
+	}
+
+	@Test
+	void testqueryBridgeWords6(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		textGraph.queryBridgeWords("this", "a",true);
+
+		String expected = "The bridge words from \"this\" to \"a\" are: is \r\n";
 
 		assertEquals(expected, outContent.toString());
 	}
