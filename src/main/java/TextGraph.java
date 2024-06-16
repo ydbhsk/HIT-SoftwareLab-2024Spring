@@ -59,7 +59,7 @@ public class TextGraph {
     System.out.println("Hello and welcome!");
     TextGraph textGraph = new TextGraph();
     textGraph.inputGraph("src/main/java/input.txt");
-    //  textGraph.inputGraph(args[0]);
+    //    textGraph.inputGraph(args[0]);
     textGraph.showDirectedGraph(null);
     Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
     while (true) {
@@ -113,7 +113,7 @@ public class TextGraph {
     // 从文件中读取图
     // ...
     try {
-      File file = new File(FilenameUtils.getName(filename));
+      File file = new File(FilenameUtils.getPath(filename) + FilenameUtils.getName(filename));
       List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
       for (String line : lines) {
         line = line.replaceAll("[^a-zA-Z ]", " ");  // 将非字母字符替换为空格
